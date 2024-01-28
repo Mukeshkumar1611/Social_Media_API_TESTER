@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media API Tester</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Social Media API Tester</h1>
+    <p>Use the form below to test your social media API:</p>
+
+    <form id="apiForm">
+        <label for="apiEndpoint">API Endpoint:</label>
+        <input type="text" id="apiEndpoint" name="apiEndpoint" required placeholder="Enter API endpoint URL"
+            value="https://lime-concerned-bull.cyclic.app/">
+
+        <label for="apiMethod">HTTP Method:</label>
+        <select id="apiMethod" name="apiMethod" required>
+            <option value="GET">GET</option>
+            <option value="POST">POST</option>
+            <option value="PUT">PUT</option>
+            <option value="DELETE">DELETE</option>
+
+        </select>
+
+        <label for="apiData">Request Data:</label>
+        <textarea id="apiData" name="apiData" placeholder="Enter request data (if applicable)"></textarea>
+
+        <button type="button" onclick="makeApiRequest()">Make API Request</button>
+    </form>
+
+    <div id="output">
+        <h2>API Response:</h2>
+        <pre id="responseOutput"></pre>
+    </div>
+
+    <script src="script.js">
+
+    </script>
+</body>
+
+</html>
