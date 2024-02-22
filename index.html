@@ -1,45 +1,302 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Social Media API Tester</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body>
+  <body>
     <h1>Social Media API Tester</h1>
     <p>Use the form below to test your social media API:</p>
 
-    <form id="apiForm">
+    <div class="outer-div">
+      <form id="apiForm">
         <label for="apiEndpoint">API Endpoint:</label>
-        <input type="text" id="apiEndpoint" name="apiEndpoint" required placeholder="Enter API endpoint URL"
-            value="https://lime-concerned-bull.cyclic.app/">
+        <input
+          type="text"
+          id="apiEndpoint"
+          name="apiEndpoint"
+          required
+          placeholder="Enter API endpoint URL"
+          value="https://lime-concerned-bull.cyclic.app/"
+        />
 
         <label for="apiMethod">HTTP Method:</label>
         <select id="apiMethod" name="apiMethod" required>
-            <option value="GET">GET</option>
-            <option value="POST">POST</option>
-            <option value="PUT">PUT</option>
-            <option value="DELETE">DELETE</option>
-
+          <option value="GET">GET</option>
+          <option value="POST">POST</option>
+          <option value="PUT">PUT</option>
+          <option value="DELETE">DELETE</option>
         </select>
 
-        <label for="apiData">Request Data:</label>
-        <textarea id="apiData" name="apiData" placeholder="Enter request data (if applicable)"></textarea>
+        <h2>Auth</h2>
+        <button type="button" onclick="showRegister()">Sign up</button>
+        <button type="button" onclick="showLogin()">Sign in</button>
 
-        <button type="button" onclick="makeApiRequest()">Make API Request</button>
-    </form>
+        <h2>User</h2>
+        <button type="button" onclick="showUpdateUser()">Update User</button>
+        <button type="button" onclick="showDeleteUser()">Delete User</button>
+        <button type="button" onclick="showGetUser()">GetUser</button>
+        <button type="button" onclick="showFollowUser()">Follow User</button>
+        <button type="button" onclick="showUnfollowUser()">
+          Unfollow User
+        </button>
 
-    <div id="output">
-        <h2>API Response:</h2>
-        <pre id="responseOutput"></pre>
+        <h2>Post</h2>
+        <button type="button" onclick="showCreatePost()">Create Post</button>
+        <button type="button" onclick="showUpdatePost()">Update Post</button>
+        <button type="button" onclick="showDeletePost()">Delete Post</button>
+        <button type="button" onclick="showLikePost()">
+          Like/Dislike Post
+        </button>
+        <button type="button" onclick="showGetPost()">Get Post</button>
+        <button type="button" onclick="showGetTimelinePost()">
+          Get Timeline Posts
+        </button>
+        <button type="button" onclick="showGetUserAllPost()">
+          Get User's All Posts
+        </button>
+      </form>
+
+      <div class="input-output">
+        <div class="modal-register modal" id="modal-register">
+          <form onsubmit="makeApiRequest(event, 'register')">
+            <label for="registerUsername">Username</label>
+            <input
+              type="text"
+              name="username"
+              id="registerUsername"
+              class="clear"
+              required
+            />
+            <label for="registerEmail">Email</label>
+            <input
+              type="email"
+              name="email"
+              id="registerEmail"
+              class="clear"
+              required
+            />
+            <label for="registerPassword">Password</label>
+            <input
+              type="password"
+              name="password"
+              id="registerPassword"
+              class="clear"
+              required
+            />
+
+            <button type="submit">Make API Request</button>
+          </form>
+        </div>
+
+        <div class="modal-login modal" id="modal-login">
+          <form onsubmit="makeApiRequest(event, 'login')">
+            <label for="loginEmail">Email</label>
+            <input
+              type="email"
+              name="email"
+              id="loginEmail"
+              class="clear"
+              required
+            />
+            <label for="loginPassword">Password</label>
+            <input
+              type="password"
+              name="password"
+              id="loginPassword"
+              class="clear"
+              required
+            />
+
+            <button type="submit">Make API Request</button>
+          </form>
+        </div>
+
+        <div class="modal-update modal" id="modal-update">
+          <form onsubmit="makeApiRequest(event, 'updateUser')">
+            <label for="userIdToUpdate">UserId</label>
+            <input
+              type="text"
+              name="userId"
+              id="userIdToUpdate"
+              class="clear"
+              required
+            />
+            <label for="updatePassword">Password</label>
+            <input
+              type="password"
+              name="password"
+              id="updatePassword"
+              class="clear"
+              required
+            />
+
+            <button type="submit">Make API Request</button>
+          </form>
+        </div>
+
+        <div class="modal-delete modal" id="modal-delete">
+          <form onsubmit="makeApiRequest(event, 'deleteUser')">
+            <label for="userIdToDelete">UserId</label>
+            <input
+              type="text"
+              name="userId"
+              id="userIdToDelete"
+              class="clear"
+              required
+            />
+
+            <button type="submit">Make API Request</button>
+          </form>
+        </div>
+
+        <div class="modal-get modal" id="modal-get">
+          <form onsubmit="makeApiRequest(event, 'getUser')">
+            <button type="submit">Make API Request</button>
+          </form>
+        </div>
+
+        <div class="modal-follow modal" id="modal-follow">
+          <form onsubmit="makeApiRequest(event, 'followUser')">
+            <label for="currentUserIdFollow">UserId</label>
+            <input
+              type="text"
+              name="userId"
+              id="currentUserIdFollow"
+              class="clear"
+              required
+            />
+
+            <button type="submit">Make API Request</button>
+          </form>
+        </div>
+
+        <div class="modal-unfollow modal" id="modal-unfollow">
+          <form onsubmit="makeApiRequest(event, 'unfollowUser')">
+            <label for="currentUserId">UserId</label>
+            <input
+              type="text"
+              name="userId"
+              id="currentUserId"
+              class="clear"
+              required
+            />
+
+            <button type="submit">Make API Request</button>
+          </form>
+        </div>
+
+        <div class="modal-create-post modal" id="modal-create-post">
+          <form onsubmit="makeApiRequest(event, 'createPost')">
+            <label for="createPostUserId">User ID</label>
+            <input
+              type="text"
+              name="userId"
+              id="createPostUserId"
+              class="clear"
+              required
+            />
+            <label for="createPostTitle">Image</label>
+            <input
+              type="text"
+              name="title"
+              id="createPostTitle"
+              class="clear"
+              required
+            />
+            <label for="createPostContent">Description</label>
+            <textarea
+              name="content"
+              id="createPostContent"
+              class="clear"
+              required
+            ></textarea>
+
+            <button type="submit">Make API Request</button>
+          </form>
+        </div>
+
+        <div class="modal-update-post modal" id="modal-update-post">
+          <form onsubmit="makeApiRequest(event, 'updatePost')">
+            <label for="updatePostId">User Id</label>
+            <input
+              type="text"
+              name="postId"
+              id="updatePostId"
+              class="clear"
+              required
+            />
+            <label for="updatePostContent">Description</label>
+            <textarea
+              name="desc"
+              id="updatePostContent"
+              class="clear"
+              required
+            ></textarea>
+
+            <button type="submit">Make API Request</button>
+          </form>
+        </div>
+
+        <div class="modal-delete-post modal" id="modal-delete-post">
+          <form onsubmit="makeApiRequest(event, 'deletePost')">
+            <label for="deletePostId">User ID</label>
+            <input
+              type="text"
+              name="postId"
+              id="deletePostId"
+              class="clear"
+              required
+            />
+
+            <button type="submit">Make API Request</button>
+          </form>
+        </div>
+
+        <div class="modal-like-post modal" id="modal-like-post">
+          <form onsubmit="makeApiRequest(event, 'likePost')">
+            <label for="likePostId">User ID</label>
+            <input
+              type="text"
+              name="postId"
+              id="likePostId"
+              class="clear"
+              required
+            />
+
+            <button type="submit">Make API Request</button>
+          </form>
+        </div>
+
+        <div class="modal-get-post modal" id="modal-get-post">
+          <form onsubmit="makeApiRequest(event, 'getPost')">
+            <button type="submit">Make API Request</button>
+          </form>
+        </div>
+
+        <div class="modal-get-timeline-post modal" id="modal-get-timeline-post">
+          <form onsubmit="makeApiRequest(event, 'timelinePost')">
+            <button type="submit">Make API Request</button>
+          </form>
+        </div>
+
+        <div class="modal-get-all-post modal" id="modal-get-all-post">
+          <form onsubmit="makeApiRequest(event, 'userPost')">
+            <button type="submit">Make API Request</button>
+          </form>
+        </div>
+
+        <div id="output">
+          <h2>API Response:</h2>
+          <pre id="responseOutput"></pre>
+          <!-- <button class="button">Clear Response</button> -->
+        </div>
+      </div>
     </div>
 
-    <script src="script.js">
-
-    </script>
-</body>
-
+    <script src="script.js"></script>
+  </body>
 </html>
